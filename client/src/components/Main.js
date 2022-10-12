@@ -18,18 +18,17 @@ const Main = ({ socket }) => {
       setTodo("");
     };
 
+    // get todos from server
+    const getTodos = async () => {
+      const res = await axios.get('http://localhost:4000/api').catch((err) => {
+        console.log("Fetch request failed: ", err);
+      })
+
+      setTodoList(res.data)
+    }
+
     // listen for changes to socket
     useEffect(() => {
-      // get todos from server
-      const getTodos = async () => {
-        const res = await axios.get('http://localhost:4000/api').catch((err) => {
-          console.log("Fetch request failed: ", err);
-        })
-
-        console.log(res);
-
-        setTodoList(res.data)
-      }
       getTodos()
       socket.on("todos", (data) => {
         setTodoList(data);
@@ -42,41 +41,28 @@ const Main = ({ socket }) => {
         <Nav />
         <form className='form' onSubmit={handleAddTodo}>
           <input
-            value={todo}
-            onChange={(e) => setTodo(e.target.value)}
-            className='input'
-            required
+              value={todo}
+              onChange={(e) => setTodo(e.target.value)}
+              className='input'
+              required
           />
           <button className='form__cta'>ADD TODO</button>
         </form>
 
         <div className='todo__container'>
-          <div className='todo__item'>
-            <p>Contributing to open-source</p>
-            <div>
-              <button className='commentsBtn'>View Comments</button>
-              <button className='deleteBtn'>DELETE</button>
-            </div>
-          </div>
+          {todoList.map((item) => (
+            <div className='todo__item' key={item.id}>
+              <p>{item.todo}</p>
+              <div>
+                <button className='commentsBtn'>View Comments</button>
 
-          <div className='todo__item'>
-            <p>Coffee chat with the team</p>
-            <div>
-              <button className='commentsBtn'>View Comments</button>
-              <button className='deleteBtn'>DELETE</button>
+                <button className='deleteBtn'>DELETE</button>
+              </div>
             </div>
-          </div>
-
-          <div className='todo__item'>
-            <p>Work on my side projects</p>
-            <div>
-              <button className='commentsBtn'>View Comments</button>
-              <button className='deleteBtn'>DELETE</button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-    );
+  );
 }
 
 export default Main;
