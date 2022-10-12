@@ -14,8 +14,15 @@ const socketIO = require('socket.io')(http, {
   }
 });
 
+let todoList = []
+
 socketIO.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
+
+  socket.on("addTodo", (todo) => {
+    todoList.unshift(todo)
+    socket.emit("todos", todoList)
+  })
 
   socket.on('disconnect', () => {
     socket.disconnect()
