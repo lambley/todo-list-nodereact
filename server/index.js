@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4001;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -24,11 +24,11 @@ socketIO.on('connection', (socket) => {
 });
 
 app.get("/api", (req, res) => {
-    res.json({
-        message: "Hello world",
-    });
+  res.json({
+    message: "Hello world",
+  });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server listening on ${PORT}`);
+  console.log(`Server listening on ${PORT}`);
 });
