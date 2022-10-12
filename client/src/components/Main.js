@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Nav from "./Nav";
+import axios from "axios";
 
 const Main = ({ socket }) => {
     const [todo, setTodo] = useState("");
     const [todoList, setTodoList] = useState([]);
-
-    // listen for changes to socket
-    useEffect(() => {
-      socket.on("todos", (data) => {
-        setTodoList(data);
-      })
-    }, [socket])
 
     const generateID = () => Math.random().toString(36).substring(2, 10);
 
@@ -23,6 +17,25 @@ const Main = ({ socket }) => {
       });
       setTodo("");
     };
+
+    // listen for changes to socket
+    useEffect(() => {
+      // get todos from server
+      const getTodos = async () => {
+        const res = await axios.get('http://localhost:4000/api').catch((err) => {
+          console.log("Fetch request failed: ", err);
+        })
+
+        console.log(res);
+
+        setTodoList(res.data)
+      }
+      getTodos()
+      socket.on("todos", (data) => {
+        setTodoList(data);
+      })
+    }, [socket])
+
 
     return (
       <div>
