@@ -3,11 +3,12 @@ import Nav from "./Nav";
 
 const Main = ({ socket }) => {
     const [todo, setTodo] = useState("");
+    const [todoList, setTodoList] = useState([]);
 
     // listen for changes to socket
     useEffect(() => {
       socket.on("todos", (data) => {
-        console.log(data);
+        setTodoList(data);
       })
     }, [socket])
 
