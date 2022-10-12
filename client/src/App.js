@@ -8,12 +8,12 @@ const socket = socketIO.connect("http://localhost:4001");
 
 const App = () => {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/app' element={<Main socket={socket} />} />
-            </Routes>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/app' element={<Main socket={socket} />} />
+        </Routes>
+      </BrowserRouter>
     );
 };
 
