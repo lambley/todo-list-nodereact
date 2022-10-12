@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/lambley/todo-list-nodereact/issues"
   },
-  "homepage": "https://github.com/lambley/todo-list-nodereact#readme"
+  "homepage": "https://github.com/lambley/todo-list-nodereact#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "socket.io": "^4.5.2"
+  }
 }
