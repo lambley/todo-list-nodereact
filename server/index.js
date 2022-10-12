@@ -30,6 +30,7 @@ socketIO.on('connection', (socket) => {
   });
 });
 
+// GET todoList as JSON
 app.get("/api", (req, res) => {
   res.json(todoList);
 });
