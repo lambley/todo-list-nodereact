@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "./Nav";
 
 const Main = ({ socket }) => {
     const [todo, setTodo] = useState("");
 
+    // listen for changes to socket
+    useEffect(() => {
+      socket.on("todos", (data) => {
+        console.log(data);
+      })
+    }, [socket])
+
     const generateID = () => Math.random().toString(36).substring(2, 10);
 
     const handleAddTodo = (e) => {
       e.preventDefault();
-      console.log({
+      socket.emit("addTodo", {
         id: generateID(),
         todo,
         comments: [],
@@ -21,10 +28,10 @@ const Main = ({ socket }) => {
         <Nav />
         <form className='form' onSubmit={handleAddTodo}>
           <input
-              value={todo}
-              onChange={(e) => setTodo(e.target.value)}
-              className='input'
-              required
+            value={todo}
+            onChange={(e) => setTodo(e.target.value)}
+            className='input'
+            required
           />
           <button className='form__cta'>ADD TODO</button>
         </form>
