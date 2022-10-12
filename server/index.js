@@ -2,19 +2,24 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
 const http = require("http").Server(app);
 const cors = require("cors");
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cors())
+
 const socketIO = require('socket.io')(http, {
   cors: {
-      origin: "http://localhost:3000"
+    origin: "http://localhost:3000"
   }
 });
 
 let todoList = []
+
+socket.on("connect_error", (err) => {
+  console.log(err.message);
+})
 
 socketIO.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
