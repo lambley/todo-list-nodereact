@@ -27,6 +27,10 @@ const Main = ({ socket }) => {
       setTodoList(res.data)
     }
 
+    const deleteTodo = (id) => {
+      socket.emit('deleteTodo', id)
+    }
+
     // listen for changes to socket
     useEffect(() => {
       getTodos()
@@ -56,7 +60,12 @@ const Main = ({ socket }) => {
               <div>
                 <button className='commentsBtn'>View Comments</button>
 
-                <button className='deleteBtn'>DELETE</button>
+                <button
+                  className='deleteBtn'
+                  onClick={() => deleteTodo(item.id)}
+                >
+                  DELETE
+                </button>
               </div>
             </div>
           ))}
