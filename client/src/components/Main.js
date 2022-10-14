@@ -7,10 +7,12 @@ const Main = ({ socket }) => {
     const [todo, setTodo] = useState("");
     const [todoList, setTodoList] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [selectedId, setSelectedId] = useState("");
 
     const toggleModal = (todoId) => {
       // request comments for todoId
       socket.emit("viewComments", todoId)
+      setSelectedId(todoId)
       setShowModal(!showModal)
     }
 
@@ -88,6 +90,7 @@ const Main = ({ socket }) => {
               showModal={showModal}
               setShowModal={setShowModal}
               socket={socket}
+              selectedId={selectedId}
             />)
           : ("")
         }

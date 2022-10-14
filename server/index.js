@@ -23,6 +23,13 @@ const socketIO = require('socket.io')(http, {
 //    comments: []
 // }
 
+// comment object:
+// {
+//   comment: "comment string"
+//   username: "username string"
+//   createdAt: Date
+// }
+
 let todoList = []
 
 socketIO.on('connection', (socket) => {
@@ -49,6 +56,25 @@ socketIO.on('connection', (socket) => {
       }
     }
   })
+
+  // listen for add comment event
+	socket.on("updateComment", (data) => {
+		const { username, todoId, comment } = data;
+
+    // find todo and add comment to comment array
+		for (let i = 0; i < todoList.length; i++) {
+			if (todoId === todoList[i].id) {
+        const createdAt = new Date().toLocaleString()
+				todoList[i].comments.push({
+          username,
+          comment,
+          createdAt
+        });
+				socket.emit("commentsReceived", todoList[i]);
+        console.log(todoList[i]);
+			}
+		}
+	});
 
   // console message on disconnect
   socket.on('disconnect', () => {

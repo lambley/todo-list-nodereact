@@ -1,6 +1,6 @@
   import React, { useState, useRef, useEffect } from "react";
 
-const Modal = ({ socket, showModal, setShowModal }) => {
+const Modal = ({ socket, showModal, setShowModal, selectedId }) => {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([])
 
@@ -15,12 +15,16 @@ const Modal = ({ socket, showModal, setShowModal }) => {
 
   // listen for socket event "commentsReceived"
   useEffect(() => {
-    socket.on("commentsReceived", (todo) => console.log(todo))
+    socket.on("commentsReceived", (todo) => setCommentList(todo.comments))
   }, [socket])
 
   const addComment = (e) => {
     e.preventDefault();
-    console.log({ comment });
+    socket.emit("updateComment", {
+      todoId: selectedId,
+      comment,
+      username: localStorage.getItem("_username") || "anon"
+    })
     setComment("");
   };
 
@@ -36,22 +40,19 @@ const Modal = ({ socket, showModal, setShowModal }) => {
             onChange={(e) => setComment(e.target.value)}
             required
           />
-          <button>Add Comment</button>
+          <button onClick={()=>addComment}>Add Comment</button>
         </form>
         <div className='comments__container'>
-          {commentList > 0
+          {commentList.length > 0
             ? (commentList.map((item, index) => (
               <div className="comment" key={index}>
                 <p>
-                  <strong>{item.name}</strong> {item.text}
+                  <strong>{item.username}</strong> ({item.createdAt}) {item.comment}
                 </p>
               </div>
             )))
             : (<p>No comments yet...</p>)
           }
-          <div className='comment'>
-
-          </div>
         </div>
       </div>
     </div>
