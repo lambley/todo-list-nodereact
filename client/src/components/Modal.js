@@ -1,7 +1,16 @@
-import React, { useState } from "react";
+  import React, { useState, useRef } from "react";
 
-const Modal = ({ socket }) => {
+const Modal = ({ socket, showModal, setShowModal }) => {
   const [comment, setComment] = useState("");
+
+  const modalRef = useRef()
+
+  // close on click on div.modal
+  const closeModal = (event) => {
+    if (modalRef.current === event.target) {
+      setShowModal(!showModal)
+    }
+  }
 
   const addComment = (e) => {
     e.preventDefault();
@@ -10,7 +19,7 @@ const Modal = ({ socket }) => {
   };
 
   return (
-    <div className='modal'>
+    <div className='modal' onClick={closeModal} ref={modalRef}>
       <div className='modal__container'>
         <h3>Comments</h3>
         <form className='comment__form' onSubmit={addComment}>
