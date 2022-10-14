@@ -8,7 +8,11 @@ const Main = ({ socket }) => {
     const [todoList, setTodoList] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
-    const toggleModal = () => setShowModal(!showModal)
+    const toggleModal = (todoId) => {
+      // request comments for todoId
+      socket.emit("viewComments", todoId)
+      setShowModal(!showModal)
+    }
 
     const generateID = () => Math.random().toString(36).substring(2, 10);
 
