@@ -26,7 +26,7 @@ const Modal = ({ socket }) => {
         <div className='comments__container'>
           <div className='comment'>
             <p>
-                <strong>Nevo - </strong> Hello guys
+                Example comment
             </p>
           </div>
         </div>

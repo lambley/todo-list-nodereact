@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Nav from "./Nav";
+import Modal from "./Modal";
 import axios from "axios";
 
 const Main = ({ socket }) => {
     const [todo, setTodo] = useState("");
     const [todoList, setTodoList] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
+    const toggleModal = () => setShowModal(!showModal)
 
     const generateID = () => Math.random().toString(36).substring(2, 10);
 
@@ -58,7 +62,12 @@ const Main = ({ socket }) => {
             <div className='todo__item' key={item.id}>
               <p>{item.todo}</p>
               <div>
-                <button className='commentsBtn'>View Comments</button>
+                <button
+                  className='commentsBtn'
+                  onClick={toggleModal}
+                >
+                  View Comments
+                </button>
 
                 <button
                   className='deleteBtn'
@@ -70,6 +79,10 @@ const Main = ({ socket }) => {
             </div>
           ))}
         </div>
+        {showModal
+          ? (<Modal showModal={showModal} setShowModal={setShowModal} />)
+          : ("")
+        }
       </div>
   );
 }
