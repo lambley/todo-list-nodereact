@@ -34,6 +34,15 @@ socketIO.on('connection', (socket) => {
     socket.emit("todos", todoList);
   }))
 
+  // listen for comment request for specific todo
+  socket.on("viewComments", (id) => {
+    for (let i = 0; i < todoList.length; i++) {
+      if (todoList[i].id === id) {
+        socket.emit("commentsReceived", todoList[i])
+      }
+    }
+  })
+
   // console message on disconnect
   socket.on('disconnect', () => {
     socket.disconnect()
