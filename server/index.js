@@ -16,6 +16,13 @@ const socketIO = require('socket.io')(http, {
   }
 });
 
+// todo object:
+// {
+//    id: "1234abcd"
+//    todo: "todo conten as string"
+//    comments: []
+// }
+
 let todoList = []
 
 socketIO.on('connection', (socket) => {
