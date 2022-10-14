@@ -68,7 +68,7 @@ const Main = ({ socket }) => {
               <div>
                 <button
                   className='commentsBtn'
-                  onClick={toggleModal}
+                  onClick={() => toggleModal(item.id)}
                 >
                   View Comments
                 </button>
@@ -84,7 +84,11 @@ const Main = ({ socket }) => {
           ))}
         </div>
         {showModal
-          ? (<Modal showModal={showModal} setShowModal={setShowModal} />)
+          ? (<Modal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              socket={socket}
+            />)
           : ("")
         }
       </div>
